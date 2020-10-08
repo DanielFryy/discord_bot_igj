@@ -1,0 +1,36 @@
+{
+  "name": "discord_bot_igj",
+  "version": "1.0.0",
+  "description": "discord bot for my personal server called Gamers",
+  "main": "bot.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanielFryy/discord_bot_igj.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "gamer",
+    "danielfryy"
+  ],
+  "author": "Daniel Freire",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DanielFryy/discord_bot_igj/issues"
+  },
+  "homepage": "https://github.com/DanielFryy/discord_bot_igj#readme",
+  "dependencies": {
+    "discord.js": "^12.3.1",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.10.0",
+    "eslint-config-prettier": "^6.12.0",
+    "jest": "^26.5.2",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.1.2"
+  }
+}
