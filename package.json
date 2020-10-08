@@ -4,6 +4,8 @@
   "description": "discord bot for my personal server called Gamers",
   "main": "bot.js",
   "scripts": {
+    "start": "node ./src/bot.js",
+    "dev": "nodemon ./src/bot.js",
     "test": "test"
   },
   "repository": {
