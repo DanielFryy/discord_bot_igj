@@ -17,7 +17,7 @@ const handleBotMentions = msg => {
     process.env.DISCORD_IGJ_BOT_USER_ID
   );
   if (botWasMentioned) {
-    msg.reply("no entendí pero por si acaso, tu mamá.");
+    msg.reply("no entendí pero por si acaso, tu mamá xD.");
   }
 };
 
