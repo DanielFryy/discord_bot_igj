@@ -54,7 +54,7 @@ cron.schedule("30 * * * *", () => {
   const channel = client.channels.cache.get(
     process.env.DISCORD_MEMES_TEXT_CHANNEL_ID
   );
-  fetch("https://9gag.com/v1/group-posts/group/wtf/type/hot")
+  fetch("https://9gag.com/v1/group-posts/group/funny/type/hot")
     .then(res => res.json())
     .then(res => {
       const { data } = res;
@@ -65,6 +65,7 @@ cron.schedule("30 * * * *", () => {
         channel.send("Está el mismo meme de antes, ya nada =(.");
         return;
       }
+      lastUrl = url;
       channel.send(url ? url : "Algo falló obteniendo la url del post =(.");
     })
     .catch(err => console.log("xxxError", err));
