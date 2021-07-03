@@ -1,8 +1,10 @@
-require("dotenv").config();
+import { config } from "dotenv";
+import cron from "node-cron";
 
-const cron = require("node-cron");
-const fetch = require("node-fetch");
-const { Client } = require("discord.js");
+import fetch from "node-fetch";
+import { Client } from "discord.js";
+
+config();
 
 const client = new Client();
 
@@ -38,7 +40,6 @@ cron.schedule("30 22 * * *", () => {
   const danielfryy = client.users.cache.get(process.env.DISCORD_MY_USER_ID);
   channel.send(`Ya anda a dormir ${danielfryy}`);
 });
-
 
 cron.schedule("30 23 * * *", () => {
   const channel = client.channels.cache.get(
