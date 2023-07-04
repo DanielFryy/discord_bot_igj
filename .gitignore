@@ -3,6 +3,8 @@ node_modules
 
 # env files
 .env*
+!.env.template
 
 # build
 build
+*.js
