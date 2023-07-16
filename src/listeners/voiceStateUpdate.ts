@@ -1,40 +1,45 @@
 // VoiceStateUpdate listener
-import { Client, VoiceState } from "discord.js";
+import { Client, Events, GuildMember, TextChannel } from "discord.js";
+import { VoiceState } from "discord.js";
 
-// TODO: send results to a logs channel
+import { getVoiceChannel } from "../utils/channel.utils";
+import { log } from "../utils/log.utils";
+
 const voiceStateUpdateListener = (client: Client) => {
+  // TODO: change this name and think a better solution to handle the action
+  const leftJoinedChannelHandler = (
+    action: "left" | "joined",
+    channelId: string | null,
+    member: GuildMember | null
+  ) => {
+    const channel = getVoiceChannel(client, channelId);
+    const channelName = channel?.name ?? channelId;
+    const userName = member?.displayName;
+    const date = new Date().toLocaleString();
+    const message = `${userName} ${action} channel ${channelName} at ${date}`;
+    log(client, message);
+  };
+  // TODO: Figure out a nice way of how to infer the types of client.on callback
   const handler = (oldState: VoiceState, newState: VoiceState) => {
     const { channelId: oldChannelId, member: oldMember } = oldState;
     const { channelId: newChannelId, member: newMember } = newState;
     if (newChannelId === null) {
-      const channel = client.channels.cache.get(oldChannelId ?? "");
-      // @ts-ignore The name property does exist
-      const channelName = channel?.name ?? oldChannelId;
-      const userName = oldMember?.displayName;
-      const date = new Date().toLocaleString();
-      console.log(`${userName} left channel ${channelName} at ${date}`);
+      leftJoinedChannelHandler("left", oldChannelId, oldMember);
     } else if (oldChannelId === null) {
-      const channel = client.channels.cache.get(newChannelId ?? "");
-      // @ts-ignore The name property does exist
-      const channelName = channel?.name ?? newChannelId;
-      const userName = newMember?.displayName;
-      const date = new Date().toLocaleString();
-      console.log(`${userName} joined channel ${channelName} at ${date}`);
+      leftJoinedChannelHandler("joined", newChannelId, newMember);
     } else {
-      const oldChannel = client.channels.cache.get(oldChannelId ?? "");
-      const newChannel = client.channels.cache.get(newChannelId ?? "");
-      // @ts-ignore The name property does exist
+      if (oldChannelId === newChannelId) return;
+      const oldChannel = getVoiceChannel(client, oldChannelId);
+      const newChannel = getVoiceChannel(client, newChannelId);
       const oldChannelName = oldChannel?.name ?? oldChannelId;
-      // @ts-ignore The name property does exist
       const newChannelName = newChannel?.name ?? newChannelId;
       const userName = newMember?.displayName;
       const date = new Date().toLocaleString();
-      console.log(
-        `${userName} moved channels: from ${oldChannelName} to ${newChannelName} at ${date}`
-      );
+      const message = `${userName} moved from channel ${oldChannelName} to channel ${newChannelName} at ${date}`;
+      log(client, message);
     }
   };
-  client.on("voiceStateUpdate", handler);
+  client.on(Events.VoiceStateUpdate, handler);
 };
 
 export default voiceStateUpdateListener;
