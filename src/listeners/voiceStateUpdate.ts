@@ -1,5 +1,5 @@
 // VoiceStateUpdate listener
-import { Client, Events, GuildMember, TextChannel } from "discord.js";
+import { Client, Events, GuildMember } from "discord.js";
 import { VoiceState } from "discord.js";
 
 import { getVoiceChannel } from "../utils/channel.utils";
