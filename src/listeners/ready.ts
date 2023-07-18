@@ -7,7 +7,7 @@ const readyListener = (client: Client) => {
     if (!user || !application) return;
     console.log(`${user.username} is online`);
   };
-  client.on(Events.ClientReady, handler);
+  client.once(Events.ClientReady, handler);
 };
 
 export default readyListener;

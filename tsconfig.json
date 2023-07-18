@@ -5,15 +5,14 @@
     "preserveConstEnums": true,
     "noEmit": true,
     "sourceMap": false,
-    "module": "es2020",
-    "moduleResolution": "node",
+    "module": "esnext",
+    "moduleResolution": "nodenext",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "useUnknownInCatchVariables": false,
-    "rootDir": "./src/",
-    "outDir": "./build/"
+    "resolveJsonModule": true
   },
   "exclude": ["node_modules", "**/*.test.ts"],
-  "include": ["./**/*.ts"]
+  "include": ["src/**/*", "rollup.config.ts"]
 }
