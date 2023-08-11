@@ -5,7 +5,6 @@
   "main": "build/bot.js",
   "scripts": {
     "start": "node ./build/bot.js || echo Missing build, run build script first",
-    "dev": "nodemon ./src/bot.js",
     "test": "jest",
     "lint": "eslint './**/*.ts' --max-warnings 0",
     "check-format": "prettier -c './**/*.ts'",
