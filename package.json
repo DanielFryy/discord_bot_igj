@@ -6,13 +6,15 @@
   "scripts": {
     "start": "node ./build/bot.js || echo Missing build, run build script first",
     "test": "vitest",
+    "test:all": "vitest run",
     "lint": "eslint './**/*.ts' --max-warnings 0",
     "check-format": "prettier -c './**/*.ts'",
     "format": "prettier -w ./**/*.ts",
     "check-types": "tsc",
     "build": "rollup -c rollup.config.ts --configPlugin typescript",
     "clean": "rm -rf node_modules && rm yarn.lock",
-    "clean:build": "rm -rf build"
+    "clean:build": "rm -rf build",
+    "prepare": "npx husky install"
   },
   "repository": {
     "type": "git",
@@ -37,15 +39,20 @@
     "node-fetch": "^3.3.2"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^17.7.0",
+    "@commitlint/types": "^17.4.4",
     "@rollup/plugin-typescript": "^11.1.2",
     "@types/node": "^20.5.0",
     "@types/node-cron": "^3.0.8",
     "@types/node-fetch": "^2.6.4",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "@typescript-eslint/parser": "^6.4.0",
+    "commitizen": "^4.3.0",
     "eslint": "^8.47.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^5.0.0",
+    "husky": "^8.0.3",
     "prettier": "^3.0.2",
     "rollup": "^3.28.0",
     "typescript": "^5.1.6",
