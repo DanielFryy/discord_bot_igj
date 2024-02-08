@@ -12,18 +12,14 @@ beforeEach(() => {
     intents: [GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.Guilds]
   });
   message = "Test message";
-  getTextChannel = vi
-    .fn()
-    .mockReturnValue(Object.create(TextChannel.prototype));
+  getTextChannel = vi.fn().mockReturnValue(Object.create(TextChannel.prototype));
   (global as any).process.env.DISCORD_LOGS_TEXT_CHANNEL_ID = "1234567890";
 });
 
 describe("log", () => {
   it("should throw an error if logs channel identifier is missing", () => {
     delete (global as any).process.env.DISCORD_LOGS_TEXT_CHANNEL_ID;
-    expect(() => log(client, message)).toThrow(
-      "Missing logs channel identifier"
-    );
+    expect(() => log(client, message)).toThrow("Missing logs channel identifier");
   });
 
   it("should throw an error if cannot find the logs channel", () => {

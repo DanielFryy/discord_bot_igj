@@ -10,10 +10,7 @@ import { getTextChannel } from "../channel/channel.utils";
  * @returns A Promise that resolves to the sent message.
  * @throws Error if the logs channel identifier is missing or if the logs channel cannot be found.
  */
-export const log = (
-  client: Client,
-  ...message: Parameters<TextChannel["send"]>
-) => {
+export const log = (client: Client, ...message: Parameters<TextChannel["send"]>) => {
   const logsChannelId = process.env.DISCORD_LOGS_TEXT_CHANNEL_ID;
   if (!logsChannelId) throw new Error("Missing logs channel identifier");
   const logsChannel = getTextChannel(client, logsChannelId);
