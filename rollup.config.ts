@@ -1,12 +1,12 @@
 import typescript from "@rollup/plugin-typescript";
 import type { RollupOptions } from "rollup";
 
-import packageJSON from "./package.json" assert { type: "json" };
+import packageJSON from "./package.json";
 
 const config: RollupOptions = {
   input: "src/bot.ts",
   output: {
-    dir: "build",
+    dir: "dist",
     format: "cjs",
     sourcemap: true
   },

@@ -6,5 +6,5 @@ node_modules
 !.env.template
 
 # build
-build
+dist
 *.js
