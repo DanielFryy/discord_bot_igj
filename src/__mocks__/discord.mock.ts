@@ -12,6 +12,10 @@ vi.mock("discord.js", () => {
     Guilds: 1
   };
 
+  const Events = {
+    ClientReady: "ready"
+  };
+
   return {
     /**
      * Mock implementation of the Client class.
@@ -27,9 +31,11 @@ vi.mock("discord.js", () => {
              */
             get: vi.fn()
           }
-        }
+        },
+        once: vi.fn()
       };
     }),
+    Events,
     GatewayIntentBits,
     /**
      * Mock implementation of the TextChannel class.

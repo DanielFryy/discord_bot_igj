@@ -3,7 +3,7 @@ import { config } from "dotenv";
 // import cron from "node-cron";
 
 // import fetch from "node-fetch";
-import readyListener from "./listeners/ready";
+import readyListener from "./listeners/ready/ready";
 import voiceStateUpdateListener from "./listeners/voiceStateUpdate";
 
 config();
