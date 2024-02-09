@@ -44,6 +44,7 @@ const voiceStateUpdateListener = (client: Client) => {
   /**
    * Event listener for the 'voiceStateUpdate' event.
    * Handles the logic when a user's voice state changes.
+   *
    * @param args - The arguments passed to the event listener.
    */
   const listener = (...args: ClientEvents[typeof event]) => {
