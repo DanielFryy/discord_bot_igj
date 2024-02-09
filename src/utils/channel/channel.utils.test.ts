@@ -1,6 +1,5 @@
 import { Client, GatewayIntentBits, TextChannel } from "discord.js";
 import { VoiceChannel } from "discord.js";
-import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { getTextChannel, getVoiceChannel } from "./channel.utils";
 

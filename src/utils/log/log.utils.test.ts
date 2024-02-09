@@ -1,5 +1,5 @@
 import { Client, GatewayIntentBits, TextChannel } from "discord.js";
-import { Mock, beforeEach, describe, expect, it, vi } from "vitest";
+import { Mock } from "vitest";
 
 import { log } from "./log.utils";
 
