@@ -14,13 +14,13 @@ beforeEach(() => {
 });
 
 describe("getChannel", () => {
-  it("should return undefined if channelId is null", () => {
-    const result = getChannel<TextChannel>(client, null);
-    expect(result).toBeUndefined();
+  it("should throw an error if channelId is null", () => {
+    const result = () => getChannel<TextChannel>(client, null);
+    expect(result).toThrow("Channel ID is required.");
   });
 
   it("should return undefined if channel is not found", () => {
-    client.channels.cache.get = vi.fn().mockReturnValue(null);
+    client.channels.cache.get = vi.fn().mockReturnValue(undefined);
     const result = getChannel<TextChannel>(client, channelId);
     expect(result).toBeUndefined();
   });
@@ -49,7 +49,7 @@ describe("getTextChannel", () => {
   });
 
   it("should return undefined if not found", () => {
-    client.channels.cache.get = vi.fn().mockReturnValue(null);
+    client.channels.cache.get = vi.fn().mockReturnValue(undefined);
     const result = getTextChannel(client, channelId);
     expect(result).toBeUndefined();
   });
@@ -64,7 +64,7 @@ describe("getVoiceChannel", () => {
   });
 
   it("should return undefined if not found", () => {
-    client.channels.cache.get = vi.fn().mockReturnValue(null);
+    client.channels.cache.get = vi.fn().mockReturnValue(undefined);
     const result = getVoiceChannel(client, channelId);
     expect(result).toBeUndefined();
   });

@@ -8,11 +8,11 @@ import { Channel, Client, TextChannel, VoiceChannel } from "discord.js";
  * @param client - The Discord client instance.
  * @param channelId - The ID of the channel to retrieve.
  * @returns The channel object if found, otherwise undefined.
+ * @throws Error if the channel ID is null.
  */
 export const getChannel = <T extends Channel>(client: Client, channelId: string | null): T | undefined => {
-  if (!channelId) return;
+  if (!channelId) throw new Error("Channel ID is required.");
   const channel = client.channels.cache.get(channelId);
-  if (!channel) return;
   return channel as T;
 };
 

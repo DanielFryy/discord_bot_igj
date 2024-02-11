@@ -42,6 +42,26 @@ const voiceStateUpdateListener = (client: Client) => {
   };
 
   /**
+   * Handles the event when a user joins a voice channel.
+   *
+   * @param channelId - The ID of the voice channel.
+   * @param member - The GuildMember object representing the user.
+   */
+  const joinedChannelHandler = (channelId: string | null, member: GuildMember | null) => {
+    leftJoinedChannelHandler("joined", channelId, member);
+  };
+
+  /**
+   * Handles the event when a user leaves a voice channel.
+   *
+   * @param channelId - The ID of the voice channel.
+   * @param member - The GuildMember object representing the user.
+   */
+  const leftChannelHandler = (channelId: string | null, member: GuildMember | null) => {
+    leftJoinedChannelHandler("left", channelId, member);
+  };
+
+  /**
    * Event listener for the 'voiceStateUpdate' event.
    * Handles the logic when a user's voice state changes.
    *
@@ -51,11 +71,9 @@ const voiceStateUpdateListener = (client: Client) => {
     const [oldState, newState] = args;
     const { channelId: oldChannelId, member: oldMember } = oldState;
     const { channelId: newChannelId, member: newMember } = newState;
-    if (newChannelId === null) {
-      leftJoinedChannelHandler("left", oldChannelId, oldMember);
-    } else if (oldChannelId === null) {
-      leftJoinedChannelHandler("joined", newChannelId, newMember);
-    } else {
+    if (newChannelId === null) leftChannelHandler(oldChannelId, oldMember);
+    else if (oldChannelId === null) joinedChannelHandler(newChannelId, newMember);
+    else {
       // This case happens when the user shares their screen so the channel changes
       if (oldChannelId === newChannelId) return;
       const oldChannel = getVoiceChannel(client, oldChannelId);
