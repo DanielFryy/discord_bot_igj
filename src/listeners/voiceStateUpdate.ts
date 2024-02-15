@@ -4,11 +4,14 @@ import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { Client, ClientEvents, Events, GuildMember } from "discord.js";
 
+import { CONSTANTS } from "../config/constants";
 import { getVoiceChannel } from "../utils/channel/channel.utils";
-import { log } from "../utils/log/log.utils";
+import { logToThread } from "../utils/log/log.utils";
 
 extend(utc);
 extend(timezone);
+
+const { DATE_FORMAT, TIME_ZONE } = CONSTANTS;
 
 /**
  * Registers a listener for the 'voiceStateUpdate' event.
@@ -17,8 +20,6 @@ extend(timezone);
  * @param client - The Discord client instance.
  */
 const voiceStateUpdateListener = (client: Client) => {
-  const dateFormat = "MM/DD/YYYY, HH:mm:ss";
-  const activeTimezone = "America/Guayaquil";
   const event = Events.VoiceStateUpdate;
 
   /**
@@ -35,10 +36,10 @@ const voiceStateUpdateListener = (client: Client) => {
   ) => {
     const channel = getVoiceChannel(client, channelId);
     const channelName = channel?.name ?? channelId;
-    const userName = member?.displayName;
-    const date = dayjs().tz(activeTimezone).format(dateFormat);
-    const message = `${userName} ${action} channel ${channelName} at ${date}`;
-    log(client, message);
+    const memberName = member?.nickname ?? member?.displayName ?? member?.user?.username ?? "Unknown";
+    const date = dayjs().tz(TIME_ZONE).format(DATE_FORMAT);
+    const message = `${memberName} ${action} channel ${channelName} at ${date}`;
+    logToThread(client, memberName, message);
   };
 
   /**
@@ -80,10 +81,10 @@ const voiceStateUpdateListener = (client: Client) => {
       const newChannel = getVoiceChannel(client, newChannelId);
       const oldChannelName = oldChannel?.name ?? oldChannelId;
       const newChannelName = newChannel?.name ?? newChannelId;
-      const userName = newMember?.displayName;
-      const date = dayjs().tz(activeTimezone).format(dateFormat);
-      const message = `${userName} moved from channel ${oldChannelName} to channel ${newChannelName} at ${date}`;
-      log(client, message);
+      const memberName = newMember?.nickname ?? newMember?.displayName ?? newMember?.user?.username ?? "Unknown";
+      const date = dayjs().tz(TIME_ZONE).format(DATE_FORMAT);
+      const message = `${memberName} moved from channel ${oldChannelName} to channel ${newChannelName} at ${date}`;
+      logToThread(client, memberName, message);
     }
   };
 

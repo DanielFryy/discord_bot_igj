@@ -4,6 +4,7 @@ import { config } from "dotenv";
 
 // import fetch from "node-fetch";
 import interactionCreateListener from "./listeners/interactionCreate/interactionCreate";
+import presenceUpdateListener from "./listeners/presenceUpdate/presenceUpdate";
 import readyListener from "./listeners/ready/ready";
 import voiceStateUpdateListener from "./listeners/voiceStateUpdate";
 
@@ -16,12 +17,13 @@ const startBot = () => {
   const token = process.env.DISCORD_BOT_TOKEN;
   if (!token) throw new Error("Discord bot token is required.");
   const client = new Client({
-    intents: [GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.Guilds]
+    intents: [GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.Guilds, GatewayIntentBits.GuildPresences]
   });
 
   readyListener(client);
   voiceStateUpdateListener(client);
   interactionCreateListener(client);
+  presenceUpdateListener(client);
 
   // Schedule tasks to be run on the server.
   // cron.schedule("30 22 * * *", () => {

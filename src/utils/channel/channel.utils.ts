@@ -37,3 +37,16 @@ export const getTextChannel = (client: Client, channelId: string | null) => {
 export const getVoiceChannel = (client: Client, channelId: string | null) => {
   return getChannel<VoiceChannel>(client, channelId);
 };
+
+/**
+ * Retrieves the logs channel from the client.
+ *
+ * @param client The Discord client instance.
+ * @returns The logs channel if found, or null if not found.
+ * @throws Error if the logs channel identifier is missing.
+ */
+export const getLogsChannel = (client: Client) => {
+  const logsChannelId = process.env.DISCORD_LOGS_TEXT_CHANNEL_ID;
+  if (!logsChannelId) throw new Error("Missing logs channel identifier");
+  return getTextChannel(client, logsChannelId);
+};

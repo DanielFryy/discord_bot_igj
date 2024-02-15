@@ -1,5 +1,5 @@
 // Interaction Create Listener
-import { ChatInputCommandInteraction, Client, Events, Interaction } from "discord.js";
+import { ChatInputCommandInteraction, Client, ClientEvents, Events } from "discord.js";
 
 export const brbCommandHandler = async (interaction: ChatInputCommandInteraction) => {
   if (interaction.commandName !== "brb") return;
@@ -36,14 +36,16 @@ export const ibCommandHandler = async (interaction: ChatInputCommandInteraction)
   await interaction.reply("I'm back!");
 };
 
-export const chatInputCommandListener = async (interaction: Interaction) => {
-  if (!interaction.isChatInputCommand()) return;
-  brbCommandHandler(interaction);
-  ibCommandHandler(interaction);
-};
-
 const interactionCreateListener = async (client: Client) => {
   const event = Events.InteractionCreate;
+
+  const chatInputCommandListener = async (...args: ClientEvents[typeof event]) => {
+    const [interaction] = args;
+    if (!interaction.isChatInputCommand()) return;
+    brbCommandHandler(interaction);
+    ibCommandHandler(interaction);
+  };
+
   client.on(event, chatInputCommandListener);
 };
 

@@ -9,11 +9,13 @@ import { vi } from "vitest";
 vi.mock("discord.js", () => {
   const GatewayIntentBits = {
     GuildVoiceStates: 128,
-    Guilds: 1
+    Guilds: 1,
+    GuildPresences: 256
   };
 
   const Events = {
-    ClientReady: "ready"
+    ClientReady: "ready",
+    PresenceUpdate: "presenceUpdate"
   };
 
   return {
@@ -32,7 +34,8 @@ vi.mock("discord.js", () => {
             get: vi.fn()
           }
         },
-        once: vi.fn()
+        once: vi.fn(),
+        on: vi.fn()
       };
     }),
     Events,
