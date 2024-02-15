@@ -56,6 +56,26 @@ vi.mock("discord.js", () => {
      */
     VoiceChannel: vi.fn().mockImplementation(() => {
       return {};
+    }),
+    Interaction: vi.fn().mockImplementation(() => {
+      return {
+        isChatInputCommand: vi.fn()
+      };
+    }),
+    ChatInputCommandInteraction: vi.fn().mockImplementation(() => {
+      return {
+        commandName: "someCommand",
+        reply: vi.fn(),
+        options: {
+          getNumber: vi.fn()
+        },
+        user: {
+          send: vi.fn()
+        },
+        guild: {
+          name: "Test Server"
+        }
+      };
     })
   };
 });

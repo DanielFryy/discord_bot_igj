@@ -3,6 +3,7 @@ import { config } from "dotenv";
 // import cron from "node-cron";
 
 // import fetch from "node-fetch";
+import interactionCreateListener from "./listeners/interactionCreate/interactionCreate";
 import readyListener from "./listeners/ready/ready";
 import voiceStateUpdateListener from "./listeners/voiceStateUpdate";
 
@@ -12,12 +13,15 @@ config();
  * Starts the Discord bot.
  */
 const startBot = () => {
+  const token = process.env.DISCORD_BOT_TOKEN;
+  if (!token) throw new Error("Discord bot token is required.");
   const client = new Client({
     intents: [GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.Guilds]
   });
 
   readyListener(client);
   voiceStateUpdateListener(client);
+  interactionCreateListener(client);
 
   // Schedule tasks to be run on the server.
   // cron.schedule("30 22 * * *", () => {
@@ -59,7 +63,7 @@ const startBot = () => {
   //     .catch(err => console.log("xxxError", err));
   // });
 
-  client.login(process.env.DISCORD_IGJ_TOKEN);
+  client.login(token);
 };
 
 startBot();

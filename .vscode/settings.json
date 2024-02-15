@@ -3,6 +3,7 @@
     "commitlint",
     "danielfryy",
     "dayjs",
-    "Freire"
+    "Freire",
+    "unstub"
   ]
 }

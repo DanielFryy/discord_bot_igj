@@ -13,12 +13,16 @@ beforeEach(() => {
   });
   message = "Test message";
   getTextChannel = vi.fn().mockReturnValue(Object.create(TextChannel.prototype));
-  (global as any).process.env.DISCORD_LOGS_TEXT_CHANNEL_ID = "1234567890";
+  vi.stubEnv("DISCORD_LOGS_TEXT_CHANNEL_ID", "1234567890");
+});
+
+afterEach(() => {
+  vi.unstubAllEnvs();
 });
 
 describe("log", () => {
   it("should throw an error if logs channel identifier is missing", () => {
-    delete (global as any).process.env.DISCORD_LOGS_TEXT_CHANNEL_ID;
+    vi.stubEnv("DISCORD_LOGS_TEXT_CHANNEL_ID", "");
     expect(() => log(client, message)).toThrow("Missing logs channel identifier");
   });
 
