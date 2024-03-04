@@ -18,7 +18,8 @@ export const statusChangeHandler = async (client: Client, oldPresence: Presence 
   const { status: oldStatus } = oldPresence ?? {};
   const { status: newStatus, member } = newPresence;
   if (oldStatus === newStatus) return;
-  const name = member?.nickname ?? member?.displayName ?? member?.user?.username ?? "Unknown";
+  const { nickname, displayName, user } = member ?? {};
+  const name = nickname ?? displayName ?? user?.username ?? "Unknown";
   const date = dayjs().tz(TIME_ZONE).format(DATE_FORMAT);
   let message = `${name} went from ${oldStatus} to ${newStatus} at ${date}`;
   if (oldStatus === "offline" && newStatus === "online") message = `${name} just came online at ${date}`;

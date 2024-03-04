@@ -1,5 +1,3 @@
-import { vi } from "vitest";
-
 /**
  * Mocks the "discord.js" module for testing purposes.
  * @remarks

@@ -1,4 +1,4 @@
-import { UserConfig } from "vitest/config";
+import type { UserConfig } from "vitest/config";
 
 const config: UserConfig = {
   test: {
