@@ -8,7 +8,7 @@ on:
       - main
 
 jobs:
-  build:
+  tests-and-build:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,13 +29,9 @@ jobs:
       - name: Notify Discord on Build Success
         if: success()
         run: |
-          curl -H "Content-Type: application/json" \
-          -d "{\"content\": \"✅ Build and tests succeeded for commit ${{ github.sha }} by ${{ github.actor }}. Your bot is ready!\"}" \
-          ${{ secrets.DISCORD_WEBHOOK_URL }}
+          curl -H "Content-Type: application/json" -d "{\"content\": \"✅ Build and tests succeeded for commit ${{ github.sha }} by ${{ github.actor }}. Your bot is ready!\"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Notify Discord on Build Failure
         if: failure()
         run: |
-          curl -H "Content-Type: application/json" \
-          -d "{\"content\": \"❌ Build or tests failed for commit ${{ github.sha }} by ${{ github.actor }}. Please check the logs for more details.\"}" \
-          ${{ secrets.DISCORD_WEBHOOK_URL }}
+          curl -H "Content-Type: application/json" -d "{\"content\": \"❌ Build or tests failed for commit ${{ github.sha }} by ${{ github.actor }}. Please check the logs for more details.\"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
