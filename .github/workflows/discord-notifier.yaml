@@ -24,84 +24,18 @@ jobs:
         run: yarn test:all
 
       - name: Build the Discord bot
-        run: npm run build
+        run: yarn build
 
       - name: Notify Discord on Build Success
         if: success()
         run: |
           curl -H "Content-Type: application/json" \
-          -d '{
-                "embeds": [
-                  {
-                    "title": "✅ Build and Tests Succeeded!",
-                    "description": "The build and tests for commit [`${{ github.sha }}`](${{
-                      github.server_url
-                    }}/${{ github.repository }}/commit/${{ github.sha }}) by **${{
-                      github.actor
-                    }}** have succeeded.",
-                    "color": 3066993,
-                    "fields": [
-                      {
-                        "name": "Branch",
-                        "value": "${{ github.ref_name }}",
-                        "inline": true
-                      },
-                      {
-                        "name": "Commit",
-                        "value": "[`${{ github.sha }}`](${{
-                          github.server_url
-                        }}/${{ github.repository }}/commit/${{ github.sha }})",
-                        "inline": true
-                      }
-                    ],
-                    "footer": {
-                      "text": "GitHub Actions",
-                      "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-                    },
-                    "timestamp": "'$(date --utc +%FT%TZ)'"
-                  }
-                ]
-              }' \
+          -d "{\"content\": \"✅ Build and tests succeeded for commit ${{ github.sha }} by ${{ github.actor }}. Your bot is ready!\"}" \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Notify Discord on Build Failure
         if: failure()
         run: |
           curl -H "Content-Type: application/json" \
-          -d '{
-                "embeds": [
-                  {
-                    "title": "❌ Build or Tests Failed!",
-                    "description": "The build or tests for commit [`${{ github.sha }}`](${{
-                      github.server_url
-                    }}/${{ github.repository }}/commit/${{ github.sha }}) by **${{
-                      github.actor
-                    }}** have failed. Please check the [logs](${{
-                      github.server_url
-                    }}/${{ github.repository }}/actions/runs/${{
-                      github.run_id
-                    }}) for more details.",
-                    "color": 15158332,
-                    "fields": [
-                      {
-                        "name": "Branch",
-                        "value": "${{ github.ref_name }}",
-                        "inline": true
-                      },
-                      {
-                        "name": "Commit",
-                        "value": "[`${{ github.sha }}`](${{
-                          github.server_url
-                        }}/${{ github.repository }}/commit/${{ github.sha }})",
-                        "inline": true
-                      }
-                    ],
-                    "footer": {
-                      "text": "GitHub Actions",
-                      "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-                    },
-                    "timestamp": "'$(date --utc +%FT%TZ)'"
-                  }
-                ]
-              }' \
+          -d "{\"content\": \"❌ Build or tests failed for commit ${{ github.sha }} by ${{ github.actor }}. Please check the logs for more details.\"}" \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
