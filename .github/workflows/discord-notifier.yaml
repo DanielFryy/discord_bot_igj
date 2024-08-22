@@ -29,8 +29,8 @@ jobs:
       - name: |
           Debug: Check Webhook URL and CURL Command
         run: |
-          echo "Webhook URL: ${{ secrets.DISCORD_WEBHOOK_URL }}"
-          echo "curl command: curl -H 'Content-Type: application/json' -d '{\"embeds\":[{\"title\":\"Test\"}]}' ${{ secrets.DISCORD_WEBHOOK_URL }}"
+          echo "Webhook URL: $WEBHOOK_URL"
+          echo "curl command: curl -H 'Content-Type: application/json' -d '{\"embeds\":[{\"title\":\"Test\"}]}' $WEBHOOK_URL"
         env:
           WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
 
