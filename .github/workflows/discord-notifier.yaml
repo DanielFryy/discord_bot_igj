@@ -30,7 +30,7 @@ jobs:
           Debug: Check Webhook URL
         run: echo "Webhook URL is set"
         env:
-          WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          WEBHOOK_URL: ${{ secrets.FAKE_WEBHOOK_URL }}
 
       - name: Notify Discord on Build Success
         if: success()
