@@ -26,12 +26,20 @@ jobs:
       - name: Build the Discord bot
         run: yarn build
 
+      - name: |
+          Debug: Check Webhook URL
+        run: echo "Webhook URL is set"
+        env:
+          WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+
       - name: Notify Discord on Build Success
         if: success()
         run: |
+          echo "Sending success notification..."
           curl -H "Content-Type: application/json" -d "{\"content\": \"✅ Build and tests succeeded for commit ${{ github.sha }} by ${{ github.actor }}. Your bot is ready!\"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Notify Discord on Build Failure
         if: failure()
         run: |
+          echo "Sending failure notification..."
           curl -H "Content-Type: application/json" -d "{\"content\": \"❌ Build or tests failed for commit ${{ github.sha }} by ${{ github.actor }}. Please check the logs for more details.\"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
