@@ -27,10 +27,12 @@ jobs:
         run: yarn build
 
       - name: |
-          Debug: Check Webhook URL
-        run: echo "Webhook URL is set"
+          Debug: Check Webhook URL and CURL Command
+        run: |
+          echo "Webhook URL: ${{ secrets.DISCORD_WEBHOOK_URL }}"
+          echo "curl command: curl -H 'Content-Type: application/json' -d '{\"embeds\":[{\"title\":\"Test\"}]}' ${{ secrets.DISCORD_WEBHOOK_URL }}"
         env:
-          WEBHOOK_URL: ${{ secrets.FAKE_WEBHOOK_URL }}
+          WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Notify Discord on Build Success
         if: success()
