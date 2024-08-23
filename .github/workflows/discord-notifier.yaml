@@ -8,7 +8,7 @@ on:
       - main
 
 jobs:
-  tests-and-build:
+  tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,12 +23,6 @@ jobs:
       - name: Run tests
         run: yarn test:all
 
-      - name: This is a new step
-        run: echo "Hello world"
-
-      - name: Build the Discord bot
-        run: yarn build
-
       - name: Notify Discord on Build Success
         if: success()
         run: |
@@ -36,8 +30,8 @@ jobs:
           -d '{
                 "embeds": [
                   {
-                    "title": "✅ Build and Tests Succeeded!",
-                    "description": "The build and tests for commit [`${{ github.sha }}`](${{
+                    "title": "✅ Tests Succeeded!",
+                    "description": "The tests for commit [`${{ github.sha }}`](${{
                       github.server_url
                     }}/${{ github.repository }}/commit/${{ github.sha }}) by **${{
                       github.actor
@@ -74,8 +68,8 @@ jobs:
           -d '{
                 "embeds": [
                   {
-                    "title": "❌ Build or Tests Failed!",
-                    "description": "The build or tests for commit [`${{ github.sha }}`](${{
+                    "title": "❌ Tests Failed!",
+                    "description": "The tests for commit [`${{ github.sha }}`](${{
                       github.server_url
                     }}/${{ github.repository }}/commit/${{ github.sha }}) by **${{
                       github.actor
@@ -108,3 +102,99 @@ jobs:
                 ]
               }' \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build the Discord bot
+        run: yarn build
+
+      - name: Notify Discord on Build Success
+        if: success()
+        run: |
+          curl -H "Content-Type: application/json" \
+          -d '{
+                "embeds": [
+                  {
+                    "title": "✅ Build Succeeded!",
+                    "description": "The build for commit [`${{ github.sha }}`](${{
+                      github.server_url
+                    }}/${{ github.repository }}/commit/${{ github.sha }}) by **${{
+                      github.actor
+                    }}** have succeeded.",
+                    "color": 3066993,
+                    "fields": [
+                      {
+                        "name": "Branch",
+                        "value": "${{ github.ref_name }}",
+                        "inline": true
+                      },
+                      {
+                        "name": "Commit",
+                        "value": "[`${{ github.sha }}`](${{
+                          github.server_url
+                        }}/${{ github.repository }}/commit/${{ github.sha }})",
+                        "inline": true
+                      }
+                    ],
+                    "footer": {
+                      "text": "GitHub Actions",
+                      "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+                    },
+                    "timestamp": "'$(date --utc +%FT%TZ)'"
+                  }
+                ]
+              }' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+      - name: Notify Discord on Build Failure
+        if: failure()
+        run: |
+          curl -H "Content-Type: application/json" \
+          -d '{
+                "embeds": [
+                  {
+                    "title": "❌ BuildFailed!",
+                    "description": "The build for commit [`${{ github.sha }}`](${{
+                      github.server_url
+                    }}/${{ github.repository }}/commit/${{ github.sha }}) by **${{
+                      github.actor
+                    }}** have failed. Please check the [logs](${{
+                      github.server_url
+                    }}/${{ github.repository }}/actions/runs/${{
+                      github.run_id
+                    }}) for more details.",
+                    "color": 15158332,
+                    "fields": [
+                      {
+                        "name": "Branch",
+                        "value": "${{ github.ref_name }}",
+                        "inline": true
+                      },
+                      {
+                        "name": "Commit",
+                        "value": "[`${{ github.sha }}`](${{
+                          github.server_url
+                        }}/${{ github.repository }}/commit/${{ github.sha }})",
+                        "inline": true
+                      }
+                    ],
+                    "footer": {
+                      "text": "GitHub Actions",
+                      "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+                    },
+                    "timestamp": "'$(date --utc +%FT%TZ)'"
+                  }
+                ]
+              }' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
+        
