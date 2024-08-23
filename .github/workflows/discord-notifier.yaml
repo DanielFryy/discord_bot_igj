@@ -54,9 +54,11 @@ jobs:
           GITHUB_REF_NAME: ${{ github.ref_name }}
         if: success()
         run: |
-          envsubst < src/messages/special/success/tests.json | curl -X POST \
+          envsubst < src/messages/special/success/tests.json > substituted-message.json
+          cat substituted-message.json
+          curl -X POST \
           -H "Content-Type: application/json" \
-          -d @- \
+          -d @substituted-message.json \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Notify Discord on Tests Failure
