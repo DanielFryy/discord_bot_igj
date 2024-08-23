@@ -104,6 +104,7 @@ jobs:
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
   build:
+    needs: tests
     runs-on: ubuntu-latest
 
     steps:
@@ -197,4 +198,3 @@ jobs:
                 ]
               }' \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
-        
