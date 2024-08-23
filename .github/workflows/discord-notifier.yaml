@@ -23,6 +23,9 @@ jobs:
       - name: Run tests
         run: yarn test:all
 
+      - name: This is a new step
+        run: echo "Hello world"
+
       - name: Build the Discord bot
         run: yarn build
 
