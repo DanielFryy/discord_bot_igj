@@ -1,6 +1,6 @@
 name: Discord notifier
 
-run-name: ${{ github.actor }} triggered ${{ github.workflow }} on ${{ github.repository }} 🚀
+run-name: Running Tests and Build on ${{ github.ref_name }} 🚀
 
 on:
   push:
@@ -10,14 +10,11 @@ on:
 jobs:
   install:
     runs-on: ubuntu-latest
-    outputs:
-      cache-hit: ${{ steps.cache-deps.outputs.cache-hit }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Cache Node.js dependencies
-        id: cache-deps
         uses: actions/cache@v4
         with:
           path: node_modules
@@ -26,10 +23,6 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Install dependencies
-        run: yarn
-
-      - name: Persist Node modules
-        if: steps.cache-deps.outputs.cache-hit != 'true'
         run: yarn
 
   tests:
@@ -52,84 +45,33 @@ jobs:
       - name: Run tests
         run: yarn test:all
 
-      - name: Notify Discord on Build Success
+      - name: Notify Discord on Tests Success
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_SERVER_URL: ${{ github.server_url }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_REF_NAME: ${{ github.ref_name }}
         if: success()
         run: |
-          curl -H "Content-Type: application/json" \
-          -d '{
-                "embeds": [
-                  {
-                    "title": "✅ Tests Succeeded!",
-                    "description": "The tests for commit [`${{ github.sha }}`](${{
-                      github.server_url
-                    }}/${{ github.repository }}/commit/${{ github.sha }}) by **${{
-                      github.actor
-                    }}** have succeeded.",
-                    "color": 3066993,
-                    "fields": [
-                      {
-                        "name": "Branch",
-                        "value": "${{ github.ref_name }}",
-                        "inline": true
-                      },
-                      {
-                        "name": "Commit",
-                        "value": "[`${{ github.sha }}`](${{
-                          github.server_url
-                        }}/${{ github.repository }}/commit/${{ github.sha }})",
-                        "inline": true
-                      }
-                    ],
-                    "footer": {
-                      "text": "GitHub Actions",
-                      "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-                    },
-                    "timestamp": "'$(date --utc +%FT%TZ)'"
-                  }
-                ]
-              }' \
+          envsubst < src/messages/special/success/tests.json | curl -X POST \
+          -H "Content-Type: application/json" \
+          -d @- \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
-      - name: Notify Discord on Build Failure
+      - name: Notify Discord on Tests Failure
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_SERVER_URL: ${{ github.server_url }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
         if: failure()
         run: |
-          curl -H "Content-Type: application/json" \
-          -d '{
-                "embeds": [
-                  {
-                    "title": "❌ Tests Failed!",
-                    "description": "The tests for commit [`${{ github.sha }}`](${{
-                      github.server_url
-                    }}/${{ github.repository }}/commit/${{ github.sha }}) by **${{
-                      github.actor
-                    }}** have failed. Please check the [logs](${{
-                      github.server_url
-                    }}/${{ github.repository }}/actions/runs/${{
-                      github.run_id
-                    }}) for more details.",
-                    "color": 15158332,
-                    "fields": [
-                      {
-                        "name": "Branch",
-                        "value": "${{ github.ref_name }}",
-                        "inline": true
-                      },
-                      {
-                        "name": "Commit",
-                        "value": "[`${{ github.sha }}`](${{
-                          github.server_url
-                        }}/${{ github.repository }}/commit/${{ github.sha }})",
-                        "inline": true
-                      }
-                    ],
-                    "footer": {
-                      "text": "GitHub Actions",
-                      "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-                    },
-                    "timestamp": "'$(date --utc +%FT%TZ)'"
-                  }
-                ]
-              }' \
+          envsubst < src/messages/special/failure/tests.json | curl -X POST \
+          -H "Content-Type: application/json" \
+          -d @- \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
   build:
@@ -153,81 +95,23 @@ jobs:
         run: yarn build
 
       - name: Notify Discord on Build Success
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_SERVER_URL: ${{ github.server_url }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_REF_NAME: ${{ github.ref_name }}
         if: success()
         run: |
-          curl -H "Content-Type: application/json" \
-          -d '{
-                "embeds": [
-                  {
-                    "title": "✅ Build Succeeded!",
-                    "description": "The build for commit [`${{ github.sha }}`](${{
-                      github.server_url
-                    }}/${{ github.repository }}/commit/${{ github.sha }}) by **${{
-                      github.actor
-                    }}** have succeeded.",
-                    "color": 3066993,
-                    "fields": [
-                      {
-                        "name": "Branch",
-                        "value": "${{ github.ref_name }}",
-                        "inline": true
-                      },
-                      {
-                        "name": "Commit",
-                        "value": "[`${{ github.sha }}`](${{
-                          github.server_url
-                        }}/${{ github.repository }}/commit/${{ github.sha }})",
-                        "inline": true
-                      }
-                    ],
-                    "footer": {
-                      "text": "GitHub Actions",
-                      "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-                    },
-                    "timestamp": "'$(date --utc +%FT%TZ)'"
-                  }
-                ]
-              }' \
+          envsubst < src/messages/special/success/build.json | curl -X POST \
+          -H "Content-Type: application/json" \
+          -d @- \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Notify Discord on Build Failure
         if: failure()
         run: |
-          curl -H "Content-Type: application/json" \
-          -d '{
-                "embeds": [
-                  {
-                    "title": "❌ BuildFailed!",
-                    "description": "The build for commit [`${{ github.sha }}`](${{
-                      github.server_url
-                    }}/${{ github.repository }}/commit/${{ github.sha }}) by **${{
-                      github.actor
-                    }}** have failed. Please check the [logs](${{
-                      github.server_url
-                    }}/${{ github.repository }}/actions/runs/${{
-                      github.run_id
-                    }}) for more details.",
-                    "color": 15158332,
-                    "fields": [
-                      {
-                        "name": "Branch",
-                        "value": "${{ github.ref_name }}",
-                        "inline": true
-                      },
-                      {
-                        "name": "Commit",
-                        "value": "[`${{ github.sha }}`](${{
-                          github.server_url
-                        }}/${{ github.repository }}/commit/${{ github.sha }})",
-                        "inline": true
-                      }
-                    ],
-                    "footer": {
-                      "text": "GitHub Actions",
-                      "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-                    },
-                    "timestamp": "'$(date --utc +%FT%TZ)'"
-                  }
-                ]
-              }' \
+          envsubst < src/messages/special/failure/build.json | curl -X POST \
+          -H "Content-Type: application/json" \
+          -d @- \
           ${{ secrets.DISCORD_WEBHOOK_URL }}

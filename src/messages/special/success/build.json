@@ -1,0 +1,26 @@
+{
+  "embeds": [
+    {
+      "title": "✅ Build Succeeded!",
+      "description": "The build for commit [`${GITHUB_SHA}`](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}) by **${GITHUB_ACTOR}** have succeeded.",
+      "color": 3066993,
+      "fields": [
+        {
+          "name": "Branch",
+          "value": "${GITHUB_REF_NAME}",
+          "inline": true
+        },
+        {
+          "name": "Commit",
+          "value": "[`${GITHUB_SHA}`](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA})",
+          "inline": true
+        }
+      ],
+      "footer": {
+        "text": "GitHub Actions",
+        "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+      },
+      "timestamp": "'$(date --utc +%FT%TZ)'"
+    }
+  ]
+}
