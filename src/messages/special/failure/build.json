@@ -20,7 +20,7 @@
         "text": "GitHub Actions",
         "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
       },
-      "timestamp": "'$(date --utc +%FT%TZ)'"
+      "timestamp": "${TIMESTAMP}"
     }
   ]
 }
