@@ -45,6 +45,10 @@ jobs:
       - name: Run tests
         run: yarn test:all
 
+      - name: Calculate Timestamp
+        id: timestamp
+        run: echo "TIMESTAMP=$(date --utc +%FT%TZ)" >> $GITHUB_ENV
+
       - name: Notify Discord on Tests Success
         env:
           GITHUB_SHA: ${{ github.sha }}
@@ -55,12 +59,9 @@ jobs:
           TIMESTAMP: ${{ env.TIMESTAMP }}
         if: success()
         run: |
-          echo "TIMESTAMP=$(date --utc +%FT%TZ)" >> $GITHUB_ENV
-          envsubst < src/messages/special/success/tests.json > substituted-message.json
-          cat substituted-message.json
-          curl -X POST \
+          envsubst < src/messages/special/success/tests.json | curl -X POST \
           -H "Content-Type: application/json" \
-          -d @substituted-message.json \
+          -d @- \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Notify Discord on Tests Failure
@@ -98,6 +99,10 @@ jobs:
 
       - name: Build the Discord bot
         run: yarn build
+
+      - name: Calculate Timestamp
+        id: timestamp
+        run: echo "TIMESTAMP=$(date --utc +%FT%TZ)" >> $GITHUB_ENV
 
       - name: Notify Discord on Build Success
         env:
