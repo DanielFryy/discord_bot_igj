@@ -1,6 +1,6 @@
 // Presence Update Listener
 import dayjs from "dayjs";
-import { ActivityType, Client, ClientEvents, Events, Presence } from "discord.js";
+import { ActivityType, type Client, ClientEvents, Events, type Presence } from "discord.js";
 
 import { CONSTANTS } from "../../config/constants";
 import { logToThread } from "../../utils/log/log.utils";
@@ -38,7 +38,7 @@ export const statusChangeHandler = async (client: Client, oldPresence: Presence 
  *
  * @param client - The Discord client instance.
  */
-const presenceUpdateListener = async (client: Client) => {
+const presenceUpdateListener = (client: Client) => {
   const event = Events.PresenceUpdate;
 
   const listener = async (...args: ClientEvents[typeof event]) => {

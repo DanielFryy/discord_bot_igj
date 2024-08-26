@@ -1,5 +1,5 @@
 // Interaction Create Listener
-import { ChatInputCommandInteraction, Client, ClientEvents, Events } from "discord.js";
+import { type ChatInputCommandInteraction, type Client, ClientEvents, Events } from "discord.js";
 
 export const brbCommandHandler = async (interaction: ChatInputCommandInteraction) => {
   if (interaction.commandName !== "brb") return;
@@ -36,7 +36,7 @@ export const ibCommandHandler = async (interaction: ChatInputCommandInteraction)
   await interaction.reply("I'm back!");
 };
 
-const interactionCreateListener = async (client: Client) => {
+const interactionCreateListener = (client: Client) => {
   const event = Events.InteractionCreate;
 
   const chatInputCommandListener = async (...args: ClientEvents[typeof event]) => {

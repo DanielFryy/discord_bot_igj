@@ -1,5 +1,6 @@
 import typescript from "@rollup/plugin-typescript";
 import type { RollupOptions } from "rollup";
+import filesize from "rollup-plugin-filesize";
 
 import packageJSON from "./package.json";
 
@@ -11,7 +12,7 @@ const config: RollupOptions[] = [
       format: "cjs",
       sourcemap: true
     },
-    plugins: [typescript({ sourceMap: true })],
+    plugins: [typescript({ sourceMap: true }), filesize({ format: { exponent: 0 } })],
     external: Object.keys(packageJSON.dependencies)
   },
   {

@@ -1,5 +1,5 @@
 // Ready listener
-import { Client, ClientEvents, Events } from "discord.js";
+import { type Client, ClientEvents, Events } from "discord.js";
 
 /**
  * Sets up a listener for the 'ready' event.
