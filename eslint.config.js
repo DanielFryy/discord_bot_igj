@@ -1,5 +1,6 @@
-import { includeIgnoreFile } from "@eslint/compat";
+import { fixupPluginRules, includeIgnoreFile } from "@eslint/compat";
 import eslint from "@eslint/js";
+import importPlugin from "eslint-plugin-import";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -15,6 +16,7 @@ const config = tseslint.config(
   ...tseslint.configs.recommended,
   includeIgnoreFile(gitignorePath),
   {
+    plugins: { import: fixupPluginRules(importPlugin) },
     rules: {
       "import/no-duplicates": "off",
       "no-unused-vars": "off",
@@ -22,7 +24,18 @@ const config = tseslint.config(
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/ban-ts-comment": "off",
       "@typescript-eslint/no-empty-interface": "off",
-      "import/no-unresolved": "off"
+      "import/no-unresolved": "off",
+      "import/order": [
+        "error",
+        {
+          groups: [["builtin", "external"], ["internal", "parent", "sibling", "index"], ["object"]],
+          "newlines-between": "always",
+          alphabetize: {
+            order: "asc",
+            caseInsensitive: false
+          }
+        }
+      ]
     }
   }
 );
