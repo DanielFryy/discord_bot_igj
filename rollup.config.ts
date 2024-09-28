@@ -10,7 +10,8 @@ const config: RollupOptions[] = [
     output: {
       dir: "dist",
       format: "cjs",
-      sourcemap: true
+      sourcemap: true,
+      entryFileNames: "[name].cjs" // Specify .cjs extension
     },
     plugins: [typescript({ sourceMap: true }), filesize({ format: { exponent: 0 } })],
     external: Object.keys(packageJSON.dependencies)
@@ -20,7 +21,8 @@ const config: RollupOptions[] = [
     output: {
       dir: "dist",
       format: "cjs",
-      sourcemap: true
+      sourcemap: true,
+      entryFileNames: "[name].cjs" // Specify .cjs extension
     },
     plugins: [typescript({ sourceMap: true })],
     external: Object.keys(packageJSON.dependencies)
