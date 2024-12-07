@@ -13,10 +13,10 @@
     "format": "prettier -w ./**/*.ts",
     "check-types": "tsc",
     "build": "rollup -c rollup.config.ts --configPlugin typescript --bundleConfigAsCjs",
-    "clean": "rm -rf node_modules && rm yarn.lock",
+    "clean": "rm -rf node_modules",
     "clean:build": "rm -rf dist",
     "register-commands": "node ./dist/register.cjs",
-    "upgrade-dependencies": "ncu -u && yarn clean && yarn",
+    "upgrade-dependencies": "ncu -u && bun run clean && bun i",
     "prepare": "husky"
   },
   "repository": {
@@ -37,31 +37,31 @@
   "homepage": "https://github.com/DanielFryy/discord_bot_igj#readme",
   "dependencies": {
     "dayjs": "^1.11.13",
-    "discord.js": "^14.16.2",
-    "dotenv": "^16.4.5"
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.7"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.5.0",
-    "@commitlint/config-conventional": "^19.5.0",
+    "@commitlint/cli": "^19.6.0",
+    "@commitlint/config-conventional": "^19.6.0",
     "@commitlint/types": "^19.5.0",
-    "@eslint/compat": "^1.1.1",
-    "@eslint/js": "^9.11.1",
-    "@rollup/plugin-typescript": "^12.1.0",
+    "@eslint/compat": "^1.2.4",
+    "@eslint/js": "^9.16.0",
+    "@rollup/plugin-typescript": "^12.1.1",
     "@types/eslint__js": "^8.42.3",
-    "@types/node": "^22.7.4",
-    "@typescript-eslint/eslint-plugin": "^8.7.0",
+    "@types/node": "^22.10.1",
+    "@typescript-eslint/eslint-plugin": "^8.17.0",
     "commitizen": "^4.3.1",
-    "eslint": "^9.11.1",
+    "eslint": "^9.16.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-import": "^2.30.0",
+    "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "husky": "^9.1.6",
-    "prettier": "^3.3.3",
-    "rollup": "^4.22.5",
+    "husky": "^9.1.7",
+    "prettier": "^3.4.2",
+    "rollup": "^4.28.1",
     "rollup-plugin-filesize": "^10.0.0",
-    "typescript": "^5.6.2",
-    "typescript-eslint": "^8.7.0",
-    "vitest": "^2.1.1"
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.17.0",
+    "vitest": "^2.1.8"
   },
   "engines": {
     "node": ">=18.0.0"
