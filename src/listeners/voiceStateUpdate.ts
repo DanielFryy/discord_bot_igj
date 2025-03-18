@@ -2,7 +2,7 @@
 import dayjs, { extend } from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
-import { type Client, ClientEvents, Events, type GuildMember } from "discord.js";
+import { type Client, type ClientEvents, Events, type GuildMember } from "discord.js";
 
 import { CONSTANTS } from "../config/constants";
 import { getVoiceChannel } from "../utils/channel/channel.utils";

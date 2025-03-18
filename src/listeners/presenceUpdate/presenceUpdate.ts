@@ -1,6 +1,6 @@
 // Presence Update Listener
 import dayjs from "dayjs";
-import { ActivityType, type Client, ClientEvents, Events, type Presence } from "discord.js";
+import { ActivityType, type Client, type ClientEvents, Events, type Presence } from "discord.js";
 
 import { CONSTANTS } from "../../config/constants";
 import { logToThread } from "../../utils/log/log.utils";

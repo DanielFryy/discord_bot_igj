@@ -1,6 +1,11 @@
 // Interaction Create Listener
-import { type ChatInputCommandInteraction, type Client, ClientEvents, Events } from "discord.js";
+import { type ChatInputCommandInteraction, type Client, type ClientEvents, Events } from "discord.js";
 
+/**
+ * Handles the BRB (Be Right Back) command.
+ *
+ * @param interaction - The interaction object.
+ */
 export const brbCommandHandler = async (interaction: ChatInputCommandInteraction) => {
   if (interaction.commandName !== "brb") return;
   const time = interaction.options.getNumber("time");
@@ -31,11 +36,21 @@ export const brbCommandHandler = async (interaction: ChatInputCommandInteraction
   );
 };
 
+/**
+ * Handles the IB (I'm Back) command.
+ *
+ * @param interaction - The interaction object.
+ */
 export const ibCommandHandler = async (interaction: ChatInputCommandInteraction) => {
   if (interaction.commandName !== "ib") return;
   await interaction.reply("I'm back!");
 };
 
+/**
+ * Sets up a listener for the 'interactionCreate' event.
+ *
+ * @param client - The Discord client instance.
+ */
 const interactionCreateListener = (client: Client) => {
   const event = Events.InteractionCreate;
 
