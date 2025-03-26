@@ -1,5 +1,5 @@
 import { Client, Events, GatewayIntentBits } from "discord.js";
-import { MockInstance } from "vitest";
+import type { MockInstance } from "vitest";
 
 import readyListener from "./ready";
 

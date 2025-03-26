@@ -1,11 +1,11 @@
 import { Client, GatewayIntentBits, TextChannel } from "discord.js";
-import { Mock } from "vitest";
+import type { MockInstance } from "vitest";
 
 import { log } from "./log.utils";
 
 let client: Client;
 let message: Parameters<TextChannel["send"]>[number];
-let getTextChannel: Mock;
+let getTextChannel: MockInstance;
 
 beforeEach(() => {
   client = new Client({
