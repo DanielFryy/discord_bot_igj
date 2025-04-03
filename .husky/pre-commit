@@ -1,1 +1,1 @@
-yarn check-types && yarn check-format && yarn lint
+bun run check-types && bun run check-format && bun run lint
