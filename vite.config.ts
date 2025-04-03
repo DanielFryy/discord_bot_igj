@@ -1,9 +1,9 @@
-import type { UserConfig } from "vitest/config";
+import type { ViteUserConfig } from "vitest/config";
 
-const config: UserConfig = {
+const config: ViteUserConfig = {
   test: {
     globals: true,
-    setupFiles: ["./src/__mocks__/discord.mock.ts"] // Fix: Use glob pattern to match any file with extension .mock.ts
+    setupFiles: ["./src/__mocks__/discord.mock.ts"] // FIXME: Use glob pattern to match any file with extension .mock.ts
   }
 };
 
