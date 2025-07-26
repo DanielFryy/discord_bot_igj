@@ -1,5 +1,9 @@
-import { ApplicationCommandOptionType, REST, Routes } from "discord.js";
+import { REST, RESTPostAPIApplicationCommandsJSONBody, Routes } from "discord.js";
 import { config } from "dotenv";
+
+import { askMeCommand } from "./askMe";
+import { brbCommand } from "./brb";
+import { ibCommand } from "./ib";
 
 config();
 
@@ -10,24 +14,7 @@ const registerCommands = async () => {
   // Default version is 10
   const rest = new REST().setToken(token);
 
-  const commands = [
-    {
-      name: "brb",
-      description: "Let the others know you'll be right back in an amount of time. Max 15 minutes.",
-      options: [
-        {
-          name: "time",
-          description: "The amount of time you'll be right back. Max 15 minutes.",
-          type: ApplicationCommandOptionType.Number,
-          required: true
-        }
-      ]
-    },
-    {
-      name: "ib",
-      description: "Let the others know you're back from being right back."
-    }
-  ];
+  const commands: RESTPostAPIApplicationCommandsJSONBody[] = [brbCommand, ibCommand, askMeCommand];
 
   try {
     console.log("Started refreshing application (/) commands.");

@@ -15,7 +15,7 @@
     "build": "rollup -c rollup.config.ts --configPlugin typescript --bundleConfigAsCjs",
     "clean": "rm -rf node_modules",
     "clean:build": "rm -rf dist",
-    "register-commands": "node ./dist/register.cjs",
+    "register-commands": "bun run clean:build && bun run build && node ./dist/register.cjs",
     "upgrade-dependencies": "ncu -u && bun run clean && bun i",
     "prepare": "husky"
   },
@@ -38,7 +38,8 @@
   "dependencies": {
     "dayjs": "^1.11.13",
     "discord.js": "^14.21.0",
-    "dotenv": "^17.1.0"
+    "dotenv": "^17.1.0",
+    "openai": "^5.8.3"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
